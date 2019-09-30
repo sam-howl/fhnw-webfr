@@ -36,8 +36,8 @@ public class QuestionnaireController {
     }
 
     @GetMapping(value="/{id}")
-    public void findById(@PathVariable Long id, HttpServletResponse response, HttpServletRequest request) throws IOException {
-        Questionnaire questionnaire = questionnaireRepository.findById(id);
+    public void findById(@PathVariable String id, HttpServletResponse response, HttpServletRequest request) throws IOException {
+        Questionnaire questionnaire = questionnaireRepository.findById(id).get();
         PrintWriter writer = response.getWriter();
         writer.append("<html><head><title>Example</title></head><body>");
         writer.append("<h3>Questionnaire</h3>");
