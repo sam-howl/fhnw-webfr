@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/questionnaires")
@@ -29,18 +30,16 @@ public class QuestionnaireController {
         writer.append("<h3>Frageboegen</h3>");
         for (Questionnaire questionnaire : questionnaires) {
             String url = request.getContextPath() + request.getServletPath();
-            url = url + "/questionnaires/" + questionnaire.getId().toString();
+            url = url + "/" + questionnaire.getId().toString();
             writer.append("<p><a href='" + response.encodeURL(url) + "'>" + questionnaire.getTitle() + "</a></p>");
         }
         writer.append("</body></html>");
     }
 
     @RequestMapping(value="/{id}")
-    public void findById(@PathVariable Long id, HttpServletResponse response,
+    public void findById(@PathVariable String id, HttpServletResponse response,
                          HttpServletRequest request) throws IOException {
-        String[] pathElements = request.getRequestURI().split("/");
-        long index = Long.parseLong(pathElements[pathElements.length - 1]);
-        Questionnaire q = questionnaireRepository.findById(index);
+        Questionnaire q = questionnaireRepository.findById(id).get();
         PrintWriter writer = response.getWriter();
         writer.append("<html><head><title>" + q.getTitle() + "</title></head><body>");
         writer.append("<h3>Questionnaires</h3>");
