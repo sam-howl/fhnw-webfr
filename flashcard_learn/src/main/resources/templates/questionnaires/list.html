@@ -22,6 +22,25 @@
 						<td colspan="1" style="vertical-align: middle;" th:text="${questionnaire.id}" />
 						<td colspan="3" style="vertical-align: middle;" th:text="${questionnaire.title}" />
 						<td colspan="10" style="vertical-align: middle;" th:text="${questionnaire.description}" />
+						<td>
+							<div class="btn-group float-right" role="group">
+							<div>
+								<form action="#" th:action="@{/questionnaires} + '/' + ${questionnaire.id}">
+									<button type="submit" class="btn btn-primary">
+										Show
+									</button>
+								</form>
+							</div>
+							<div>
+								<form action="#" th:action="@{/questionnaires} + '/' + ${questionnaire.id}" method="post">
+									<input type="hidden" name="_method" value="DELETE" />
+									<button type="submit" class="btn btn-danger">
+										Delete
+									</button>
+								</form>
+							</div>
+							</div>
+						</td>
 					</tr>
 				</tbody>
 			</table>

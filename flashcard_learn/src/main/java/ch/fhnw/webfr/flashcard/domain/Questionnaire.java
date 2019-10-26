@@ -3,11 +3,15 @@ package ch.fhnw.webfr.flashcard.domain;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.Size;
+
 @Document(collection="questionnaires")
 public class Questionnaire {
     @Id //Mit dieser Annotation wird folgende Property als ID festgelegt
     private String id; //Die ID einer MongoDB ist immer vom Typ String
+    @Size(min = 2, max = 30)
     private String title;
+    @Size(min = 10, max = 50)
     private String description;
 
     public Questionnaire(){

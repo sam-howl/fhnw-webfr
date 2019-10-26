@@ -6,8 +6,18 @@
 </head>
 <body>
     <section>
-        <h1 th:text="${questionnaire.title}"></h1>
-        <p th:text="${questionnaire.description}"></p>
+        <form>
+            <fieldset disabled>
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" class="form-control" th:placeholder="${questionnaire.title}">
+                </div>
+                <div class="form-group">
+                    <label for="desc">Description</label>
+                    <input type="text" id="desc" class="form-control" th:placeholder="${questionnaire.description}">
+                </div>
+            </fieldset>
+        </form>
     </section>
 </body>
 </html>

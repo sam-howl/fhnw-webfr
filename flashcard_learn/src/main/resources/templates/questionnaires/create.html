@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" th:replace="~{layout :: maincontent(~{::section})}">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" >
     <title>Title</title>
 </head>
 <body>
+<section>
     <form th:action="@{/questionnaires}" th:object="${questionnaire}" method="post"> <!--#1
     Auf dieser Zeile wird der HTTP Request festgelegt. Das Attribute "th:action" legt die URL (hier
     relativ zur Root-URL) fest, wenn der Request abgeschickt wird. Mit "th:object" wird auf das ModelBean
@@ -12,15 +13,17 @@
         <div class="form-group row">
             <label class="col-md-2" for="title">Title:</label>
             <div class="col-md-10">
-                <input type="text" id="title" class="form-control" th:field="*{title}" autofocus="autofocus" /> <!-- #2
+                <input type="text" id="title" class="form-control" th:field="*{title}" autofocus="autofocus" th:errorclass="is-invalid" /> <!-- #2
                 Das Attribure "th:field" referenziert den Titel des Questionnaire. Konkret wird die Methode
                 "getTitle()" auf der Instanz bzw. Model-Bean Questionnaire aufgerufen. -->
+                <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="invalid-feedback">Incorrect title</span>
             </div>
         </div>
         <div class="form-group row">
             <label class="col-md-2" for="description">Description:</label>
             <div class="col-md-10">
-                <input type="text" id="description" class="form-control" th:field="*{description}" />
+                <input type="text" id="description" class="form-control" th:field="*{description}" th:errorclass="is-invalid" />
+                <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="invalid-feedback">Incorrect description</span>
             </div>
         </div>
         <div class="form-group row">
@@ -30,5 +33,6 @@
             Beim Submit wird die in Zeile #1 definierte Aktion ausgeführt. -->
         </div>
     </form>
+</section>
 </body>
 </html>
