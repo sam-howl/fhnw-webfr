@@ -41,7 +41,7 @@ public class QuestionnaireController {
             return "questionnaires/show";
         }
         logger.error("no questionnaire with this id found");
-        return "error";
+        return "404";
     }
 
     @RequestMapping(params = "form", method = RequestMethod.GET)
@@ -61,13 +61,11 @@ public class QuestionnaireController {
 
     @DeleteMapping(value="/{id}")
     public String delete(@PathVariable String id){
-        questionnaireRepository.deleteById(id);
-        return "redirect:/questionnaires";
-//        Optional<Questionnaire> questionnaire = questionnaireRepository.findById(id);
-//        if(questionnaire.isPresent()){
-//            questionnaireRepository.deleteById(id);
-//            return "redirect:/questionnaires";
-//        }
-//        return "error";
+        Optional<Questionnaire> questionnaire = questionnaireRepository.findById(id);
+        if(questionnaire.isPresent()){
+            questionnaireRepository.deleteById(id);
+            return "redirect:/questionnaires";
+        }
+        return "404";
     }
 }
