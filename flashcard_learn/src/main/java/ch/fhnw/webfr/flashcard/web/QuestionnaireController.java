@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
@@ -57,6 +58,32 @@ public class QuestionnaireController {
         }
         questionnaireRepository.save(questionnaire);
         return "redirect:/questionnaires";
+    }
+
+    @GetMapping(value="/{id}", params = "form")
+    public String updateForm(@PathVariable String id, Model model){
+        Optional<Questionnaire> questionnaire = questionnaireRepository.findById(id);
+        if(questionnaire.isPresent()){
+            model.addAttribute("questionnaire", questionnaire.get());
+            return "questionnaires/update";
+        }
+        return "404";
+    }
+
+    @PutMapping(value="/{id}")
+    public String updateQuestionnaire(@Valid Questionnaire questionnaire, BindingResult result){
+        if(result.hasErrors()){
+            return "questionnaires/update";
+        }
+        Optional<Questionnaire> q = questionnaireRepository.findById(questionnaire.getId());
+        if(q.isPresent()){
+            Questionnaire oldQuestionnaire = q.get();
+            oldQuestionnaire.setTitle(questionnaire.getTitle());
+            oldQuestionnaire.setDescription(questionnaire.getDescription());
+            questionnaireRepository.save(oldQuestionnaire);
+            return "redirect:/questionnaires";
+        }
+        return "404";
     }
 
     @DeleteMapping(value="/{id}")

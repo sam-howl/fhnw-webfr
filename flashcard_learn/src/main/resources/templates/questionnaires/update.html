@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{layout :: maincontent(~{::section})}">
+<head>
+    <meta charset="UTF-8" >
+    <title>Title</title>
+</head>
+<body>
+<section>
+    <form th:action="@{/questionnaires} + '/' + ${questionnaire.id}"  th:object="${questionnaire}" method="post">
+        <div class="form-group row">
+            <label class="col-md-2" for="title">Title:</label>
+            <div class="col-md-10">
+                <input type="text" id="title" class="form-control" th:field="*{title}" autofocus="autofocus" th:errorclass="is-invalid" />
+                <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="invalid-feedback">Incorrect title</span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-2" for="description">Description:</label>
+            <div class="col-md-10">
+                <input type="text" id="description" class="form-control" th:field="*{description}" th:errorclass="is-invalid" />
+                <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="invalid-feedback">Incorrect description</span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <a class="btn btn-default" th:href="@{/questionnaires}">Cancel</a>
+            <input type="hidden" name="_method" value="PUT"/>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </form>
+</section>
+</body>
+</html>

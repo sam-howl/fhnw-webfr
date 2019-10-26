@@ -26,11 +26,19 @@
 							<div class="btn-group float-right" role="group">
 							<div>
 								<form action="#" th:action="@{/questionnaires} + '/' + ${questionnaire.id}">
-									<button type="submit" class="btn btn-primary">
+									<button type="submit" class="btn btn-secondary">
 										Show
 									</button>
 								</form>
 							</div>
+								<div>
+									<form action="#" th:action="@{/questionnaires} + '/' + ${questionnaire.id}">
+										<input type="hidden" name="form" />
+										<button type="submit" class="btn btn-primary">
+											Update
+										</button>
+									</form>
+								</div>
 							<div>
 								<form action="#" th:action="@{/questionnaires} + '/' + ${questionnaire.id}" method="post">
 									<input type="hidden" name="_method" value="DELETE" />
