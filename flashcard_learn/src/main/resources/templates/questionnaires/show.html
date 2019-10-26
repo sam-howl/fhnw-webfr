@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: maincontent(~{::section})}">
 <head>
     <meta charset="UTF-8">
     <title th:text="${questionnaire.title}"></title>
 </head>
 <body>
-    <h1 th:text="${questionnaire.title}"></h1>
-    <p th:text="${questionnaire.description}"></p>
+    <section>
+        <h1 th:text="${questionnaire.title}"></h1>
+        <p th:text="${questionnaire.description}"></p>
+    </section>
 </body>
 </html>
