@@ -7,9 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,7 +33,7 @@ public class QuestionnaireController {
         return "questionnaires/list"; //Path to html file from "templates"
     }
 
-    @RequestMapping(value="/{id}")
+    @GetMapping(value="/{id}")
     public String findById(@PathVariable String id, Model model) throws IOException {
         Optional<Questionnaire> q = questionnaireRepository.findById(id);
         if(q.isPresent()){
@@ -45,5 +43,17 @@ public class QuestionnaireController {
         }
         logger.error("no questionnaire with this id found");
         return "error";
+    }
+
+    @RequestMapping(params = "form", method = RequestMethod.GET)
+    public String createForm(Model model) {
+        model.addAttribute("questionnaire", new Questionnaire());
+        return "questionnaires/create";
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public String createQuestionnaire(Questionnaire questionnaire) {
+        questionnaireRepository.save(questionnaire);
+        return "redirect:/questionnaires";
     }
 }

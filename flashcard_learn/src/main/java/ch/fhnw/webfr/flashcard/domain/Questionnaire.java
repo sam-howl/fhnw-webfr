@@ -10,6 +10,18 @@ public class Questionnaire {
     private String title;
     private String description;
 
+    public Questionnaire(){
+
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public Questionnaire(String title, String description) {
         this.title = title;
         this.description = description;

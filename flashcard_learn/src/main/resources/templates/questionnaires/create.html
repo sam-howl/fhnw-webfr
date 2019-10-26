@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form th:action="@{/questionnaires}" th:object="${questionnaire}" method="post"> <!--#1
+    Auf dieser Zeile wird der HTTP Request festgelegt. Das Attribute "th:action" legt die URL (hier
+    relativ zur Root-URL) fest, wenn der Request abgeschickt wird. Mit "th:object" wird auf das ModelBean
+    verweist, das innerhalb der Form genutzt wird und das im POST Request mitgegeben wird. -->
+        <div class="form-group row">
+            <label class="col-md-2" for="title">Title:</label>
+            <div class="col-md-10">
+                <input type="text" id="title" class="form-control" th:field="*{title}" autofocus="autofocus" /> <!-- #2
+                Das Attribure "th:field" referenziert den Titel des Questionnaire. Konkret wird die Methode
+                "getTitle()" auf der Instanz bzw. Model-Bean Questionnaire aufgerufen. -->
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-2" for="description">Description:</label>
+            <div class="col-md-10">
+                <input type="text" id="description" class="form-control" th:field="*{description}" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <a class="btn btn-default" th:href="@{/questionnaires}">Cancel</a> <!--#3
+            Bei einem Abbruch wird über den HTTP-Link ein GET Request auf "/questionnaires" ausgelöst -->
+            <button type="submit" class="btn btn-primary">Save</button> <!-- #4
+            Beim Submit wird die in Zeile #1 definierte Aktion ausgeführt. -->
+        </div>
+    </form>
+</body>
+</html>
