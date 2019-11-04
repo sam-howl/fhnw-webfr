@@ -13,7 +13,7 @@ export default class QuestionnaireContainer extends React.Component {
         return(
         <div>
             <h1>{this.props.qs.length} Questionnaires found</h1>
-            <QuestionnaireTable list={this.props.qs} />
+            <QuestionnaireTable questionnaires={this.props.qs} />
         </div>)
     }
 }

@@ -1,14 +1,11 @@
 import React from 'react';
 
-export default class QuestionnaireTableElement extends React.Component {
-
-    render() {
-        return (
+const QuestionnaireTableElement = ({questionnaire}) => (
         <tr>
-            <td>{this.props.element.id}</td>
-            <td>{this.props.element.title}</td>
-            <td>{this.props.element.description}</td>
+            <td>{questionnaire.id}</td>
+            <td>{questionnaire.title}</td>
+            <td>{questionnaire.description}</td>
         </tr>
-        )
-    }
-}
+)
+
+export default QuestionnaireTableElement
