@@ -1,8 +1,20 @@
 import React from 'react';
+import QuestionnaireTable from './QuestionnaireTable';
 
 export default class QuestionnaireContainer extends React.Component {
+    // <h1>{this.state.questionnaires.length} Questionnaires found</h1> sollte es dann unten sein
+    // contstructor(props) {
+    //     super(props);
+    //     this.state = {
+    //         questionnaires: this.props.qs
+    //     }
+    // }
     render() {
-        return <h1>{this.props.qs.length} Questionnaires found</h1>
+        return(
+        <div>
+            <h1>{this.props.qs.length} Questionnaires found</h1>
+            <QuestionnaireTable list={this.props.qs} />
+        </div>)
     }
 }
 
