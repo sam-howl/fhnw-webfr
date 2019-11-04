@@ -1,24 +1,15 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Header from './app/Header';
+import Footer from './app/Footer';
+import QuestionnaireController from './questionnaire/QuestionnaireContainer';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+    <Header title="Flashcard Client with React" subtitle="Version 1.0" />
+    <QuestionnaireController />
+    <Footer message="© The FHNW Team" />
     </div>
   );
 }
