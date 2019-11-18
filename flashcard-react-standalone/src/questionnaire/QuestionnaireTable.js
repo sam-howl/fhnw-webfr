@@ -10,6 +10,7 @@ const QestionnaireTable = ({ questionnaires }) => (
                 <td>ID</td>
                 <td>Title</td>
                 <td>Description</td>
+                <td></td>
             </tr>
         </thead>
         <tbody>
