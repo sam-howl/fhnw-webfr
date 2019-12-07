@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html th:replace="~{layout :: maincontent(~{::section})}">
+<head>
+    <title>Example</title>
+</head>
+<body>
+<div>
+
+    <section>
+        <strong th:text="${questionnaire.title}"></strong><br/>
+        <span th:text="${questionnaire.description}"></span>
+    </section>
+</div>
+</body>
+</html>

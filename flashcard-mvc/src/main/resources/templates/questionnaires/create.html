@@ -10,15 +10,15 @@
             <div class="form-group row">
                 <label class="col-md-2" for="title">Title:</label>
                 <div class="col-md-10">
-                    <input type="text" id="title" class="form-control" th:field="*{title}" th:errorclass="fieldError" autofocus="true"/>
-                    <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="fieldErrorText">Incorrect title</span>
+                    <input type="text" id="title" class="form-control" th:field="*{title}" th:errorclass="is-invalid" autofocus="true"/>
+                    <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="invalid-feedback">Incorrect title</span>
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-md-2" for="description">Description:</label>
                 <div class="col-md-10">
-                    <input type="text" id="description" class="form-control" th:field="*{description}" th:errorclass="fieldError"></input>
-                    <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="fieldErrorText">Incorrect description</span>
+                    <input type="text" id="description" class="form-control" th:field="*{description}" th:errorclass="is-invalid"></input>
+                    <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="invalid-feedback">Incorrect description</span>
                 </div>
             </div>
             <div class="form-group row">
