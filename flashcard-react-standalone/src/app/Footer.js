@@ -1,9 +1,10 @@
 import React from 'react';
+import { Row, Col } from 'reactstrap';
 
+const Footer = ({ message, qs }) =>
+  <Row>
+    <Col>{message}</Col>
+    <Col className='text-right'>{qs} Questionnaires found</Col>
+  </Row>
 
-
-
-const Footer = ({ message }) => (
-    <h6>&copy; {message}</h6>
-)
 export default Footer;
