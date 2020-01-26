@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Label, Col } from 'reactstrap'
+import { Button, Modal, ModalHeader, ModalBody, Col } from 'reactstrap'
 
 const QuestionnaireDeleteDialog = props => {
     
@@ -23,21 +23,11 @@ const QuestionnaireDeleteDialog = props => {
                     Delete Questionnaire
                 </ModalHeader>
                 <ModalBody>
-                    <Form>
-                        <FormGroup row>
-                            <Label for="formTitle">
-                                Do you really want to delete this questionnaire??
-                            </Label>
-                        </FormGroup>
-                        <FormGroup>
-                            <Col className="clearfix" style={{ padding: '.2rem' }}>
-                                <Button className="float-right" color="danger"
-                                    onClick={deleteQuestionnaire}>Delete</Button>
-                                <Button className="float-right" color="secondary"
-                                    onClick={close}>Close</Button>
-                            </Col>
-                        </FormGroup>
-                    </Form>
+                    <div>Do you really want to delete this questionnaire??</div>
+                    <Col className="clearfix" style={{ padding: '.2rem' }}>
+                        <Button className="float-right" color="danger" onClick={deleteQuestionnaire}>Delete</Button>
+                        <Button className="float-right" color="secondary" onClick={close}>Close</Button>
+                    </Col>
                 </ModalBody>
             </Modal>
         </div>
