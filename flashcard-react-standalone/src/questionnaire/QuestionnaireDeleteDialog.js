@@ -10,7 +10,7 @@ const QuestionnaireDeleteDialog = props => {
     const open = () => setShowModal(true)
 
     const deleteQuestionnaire = () => {
-        props.delete(props.questionnaire)
+        props.delete(props.id)
         close()
     }
 

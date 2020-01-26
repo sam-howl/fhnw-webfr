@@ -11,7 +11,7 @@ const QuestionnaireTableElement = props => (
             <div class="btn-group float-right" role="group">
                 <QuestionnaireShowDialog questionnaire={props.questionnaire} />
                 <QuestionnaireUpdateDialog questionnaire={props.questionnaire} update={props.update} />
-                <QuestionnaireDeleteDialog questionnaire={props.questionnaire} delete={props.deleteQuestionnaire} />
+                <QuestionnaireDeleteDialog id={props.questionnaire.id} delete={props.deleteQuestionnaire} />
             </div>
         </tr>
 )

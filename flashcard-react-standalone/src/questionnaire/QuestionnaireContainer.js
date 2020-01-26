@@ -30,8 +30,8 @@ export default class QuestionnaireContainer extends React.Component {
         })        
     }
 
-    deleteQuestionnaire(questionnaire){
-        let questionnairesCopy = this.state.questionnaires.filter(q => q.id !== questionnaire.id);
+    deleteQuestionnaire(id){
+        let questionnairesCopy = this.state.questionnaires.filter(q => q.id !== id);
         this.setState({
             questionnaires: questionnairesCopy
         }) 
