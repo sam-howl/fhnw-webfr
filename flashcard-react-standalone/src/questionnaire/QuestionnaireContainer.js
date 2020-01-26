@@ -11,6 +11,7 @@ export default class QuestionnaireContainer extends React.Component {
         }
         this.createQuestionnaire = this.createQuestionnaire.bind(this)
         this.updateQuestionnaire = this.updateQuestionnaire.bind(this)
+        this.deleteQuestionnaire = this.deleteQuestionnaire.bind(this)
     }
 
     createQuestionnaire(questionnaire){
@@ -28,6 +29,13 @@ export default class QuestionnaireContainer extends React.Component {
             questionnaires: questionnairesCopy
         })        
     }
+
+    deleteQuestionnaire(questionnaire){
+        let questionnairesCopy = this.state.questionnaires.filter(q => q.id !== questionnaire.id);
+        this.setState({
+            questionnaires: questionnairesCopy
+        }) 
+    }
     
     render() {
         return(
@@ -36,7 +44,7 @@ export default class QuestionnaireContainer extends React.Component {
             <div class="float-right" role="group">
                 <QuestionnaireCreateDialog create={ this.createQuestionnaire } />
             </div>
-            <QuestionnaireTable questionnaires={this.state.questionnaires} update={this.updateQuestionnaire} />
+            <QuestionnaireTable questionnaires={this.state.questionnaires} update={this.updateQuestionnaire} deleteQuestionnaire={this.deleteQuestionnaire} />
         </div>)
     }
 }

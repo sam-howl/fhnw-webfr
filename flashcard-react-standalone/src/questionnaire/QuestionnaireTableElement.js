@@ -1,6 +1,7 @@
 import React from 'react';
 import QuestionnaireShowDialog from './QuestionnaireShowDialog'
 import QuestionnaireUpdateDialog from './QuestionnaireUpdateDialog'
+import QuestionnaireDeleteDialog from './QuestionnaireDeleteDialog'
 
 const QuestionnaireTableElement = props => (
         <tr>
@@ -10,6 +11,7 @@ const QuestionnaireTableElement = props => (
             <div class="btn-group float-right" role="group">
                 <QuestionnaireShowDialog questionnaire={props.questionnaire} />
                 <QuestionnaireUpdateDialog questionnaire={props.questionnaire} update={props.update} />
+                <QuestionnaireDeleteDialog questionnaire={props.questionnaire} delete={props.deleteQuestionnaire} />
             </div>
         </tr>
 )

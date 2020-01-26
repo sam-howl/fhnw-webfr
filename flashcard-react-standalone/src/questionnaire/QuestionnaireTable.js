@@ -19,6 +19,7 @@ const QuestionnaireTable = props => (
                     key={questionnaire.id}
                     questionnaire={questionnaire} 
                     update={props.update}
+                    deleteQuestionnaire = {props.deleteQuestionnaire}
                 />
             )}
         </tbody>
