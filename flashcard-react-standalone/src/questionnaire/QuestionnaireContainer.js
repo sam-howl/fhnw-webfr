@@ -1,52 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react'
+import _ from 'lodash'
 import QuestionnaireTable from './QuestionnaireTable';
 import QuestionnaireCreateDialog from './QuestionnaireCreateDialog'
 
-export default class QuestionnaireContainer extends React.Component {
+const ID = 'id'
+const DEFAULT_ID = 0
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            questionnaires: this.props.qs
-        }
-        this.createQuestionnaire = this.createQuestionnaire.bind(this)
-        this.updateQuestionnaire = this.updateQuestionnaire.bind(this)
-        this.deleteQuestionnaire = this.deleteQuestionnaire.bind(this)
-    }
+const QuestionnaireContainer = props => {
+    let [questionnaires, setQuestionnaires] = useState(props.qs)
 
-    createQuestionnaire(questionnaire){
-        let q = {id: this.state.questionnaires.length+1, ...questionnaire}
-        let qs = this.state.questionnaires
-        qs.push(q)
-        this.setState({
-            questionnaires: qs
-        })
-    }
-
-    updateQuestionnaire(questionnaire){
-        let questionnairesCopy = this.state.questionnaires.map(q => q.id === questionnaire.id ? questionnaire : q)
-        this.setState({
-            questionnaires: questionnairesCopy
-        })        
-    }
-
-    deleteQuestionnaire(id){
-        let questionnairesCopy = this.state.questionnaires.filter(q => q.id !== id);
-        this.setState({
-            questionnaires: questionnairesCopy
-        }) 
-    }
+    const id = qs =>
+        _.get(_.maxBy(qs, ID), ID, DEFAULT_ID) + 1
     
-    render() {
-        return(
+    const createQuestionnaire = questionnaire =>
+        setQuestionnaires(_.concat(questionnaires, { id: id(questionnaires), ...questionnaire}))
+    
+    const updateQuestionnaire = questionnaire =>
+        setQuestionnaires(_.map(questionnaires, q => q.id === questionnaire.id ? questionnaire : q))
+    
+    const deleteQuestionnaire = id =>
+        setQuestionnaires( _.reject(questionnaires, { id: id }))
+    
+    return (
         <div>
             <h1>Questionnaires</h1>
             <div class="float-right" role="group">
-                <QuestionnaireCreateDialog create={ this.createQuestionnaire } />
+                <QuestionnaireCreateDialog create={ createQuestionnaire } />
             </div>
-            <QuestionnaireTable questionnaires={this.state.questionnaires} update={this.updateQuestionnaire} deleteQuestionnaire={this.deleteQuestionnaire} />
-        </div>)
-    }
+            <QuestionnaireTable questionnaires={questionnaires} update={updateQuestionnaire} deleteQuestionnaire={deleteQuestionnaire} />
+        </div>
+    )
 }
 
 QuestionnaireContainer.defaultProps = {
@@ -59,3 +42,4 @@ QuestionnaireContainer.defaultProps = {
     ]
 }
 
+export default QuestionnaireContainer;
