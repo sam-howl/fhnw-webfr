@@ -2,7 +2,7 @@ import React from 'react';
 import QuestionnaireTableElement from './QuestionnaireTableElement';
 import { Table } from 'react-bootstrap';
 
-const QestionnaireTable = ({ questionnaires }) => (
+const QuestionnaireTable = props => (
 
     <Table striped bordered hover >
         <thead>
@@ -14,10 +14,11 @@ const QestionnaireTable = ({ questionnaires }) => (
             </tr>
         </thead>
         <tbody>
-            {questionnaires.map((questionnaire) =>
+            {props.questionnaires.map((questionnaire) =>
                 <QuestionnaireTableElement
                     key={questionnaire.id}
                     questionnaire={questionnaire} 
+                    update={props.update}
                 />
             )}
         </tbody>
@@ -26,4 +27,4 @@ const QestionnaireTable = ({ questionnaires }) => (
 
 )
 
-export default QestionnaireTable;
+export default QuestionnaireTable;

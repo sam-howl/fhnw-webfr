@@ -6,20 +6,27 @@ export default class QuestionnaireContainer extends React.Component {
 
     constructor(props) {
         super(props);
-        // this.state = {
-        //     questionnaires: this.props.qs
-        // }
-        this.createQuestionaire = this.createQuestionaire.bind(this)
+        this.state = {
+            questionnaires: this.props.qs
+        }
+        this.createQuestionnaire = this.createQuestionnaire.bind(this)
+        this.updateQuestionnaire = this.updateQuestionnaire.bind(this)
     }
 
-    createQuestionaire(questionnaire){
-        let q = {id: this.props.qs.length+1, ...questionnaire}
-        let qs = this.props.qs
+    createQuestionnaire(questionnaire){
+        let q = {id: this.state.questionnaires.length+1, ...questionnaire}
+        let qs = this.state.questionnaires
         qs.push(q)
-        //this.props.questionnaires = qs
-        // this.setState({
-        //     questionnaires: qs
-        // })
+        this.setState({
+            questionnaires: qs
+        })
+    }
+
+    updateQuestionnaire(questionnaire){
+        let questionnairesCopy = this.state.questionnaires.map(q => q.id === questionnaire.id ? questionnaire : q)
+        this.setState({
+            questionnaires: questionnairesCopy
+        })        
     }
     
     render() {
@@ -27,20 +34,20 @@ export default class QuestionnaireContainer extends React.Component {
         <div>
             <h1>Questionnaires</h1>
             <div class="float-right" role="group">
-                <QuestionnaireCreateDialog create={ this.createQuestionaire } />
+                <QuestionnaireCreateDialog create={ this.createQuestionnaire } />
             </div>
-            <QuestionnaireTable questionnaires={this.props.qs} />
+            <QuestionnaireTable questionnaires={this.state.questionnaires} update={this.updateQuestionnaire} />
         </div>)
     }
 }
 
-// QuestionnaireContainer.defaultProps = {
-//     qs: [
-//         { 'id': 1, 'title': 'Test Title 1', 'description': 'Test Description 1' },
-//         { 'id': 2, 'title': 'Test Title 2', 'description': 'Test Description 2' },
-//         { 'id': 3, 'title': 'Test Title 3', 'description': 'Test Description 3' },
-//         { 'id': 4, 'title': 'Test Title 4', 'description': 'Test Description 4' },
-//         { 'id': 5, 'title': 'Test Title 5', 'description': 'Test Description 5' }
-//     ]
-// }
+QuestionnaireContainer.defaultProps = {
+    qs: [
+        { 'id': 1, 'title': 'Test Title 1', 'description': 'Test Description 1' },
+        { 'id': 2, 'title': 'Test Title 2', 'description': 'Test Description 2' },
+        { 'id': 3, 'title': 'Test Title 3', 'description': 'Test Description 3' },
+        { 'id': 4, 'title': 'Test Title 4', 'description': 'Test Description 4' },
+        { 'id': 5, 'title': 'Test Title 5', 'description': 'Test Description 5' }
+    ]
+}
 
