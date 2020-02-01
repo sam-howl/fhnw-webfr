@@ -2,9 +2,12 @@
 const log4js = require("log4js");
 const dotenv = require("dotenv-extended");
 const express = require("express");
-const app = express();
 const mongoose = require("mongoose");
-const Questionnaire = require('./domain/questionnaire');
+const dispatcher = require('./web/dispatcher');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+
+const app = express();
 
 log4js.configure("log4js.json");
 const logger = log4js.getLogger("server");
@@ -23,15 +26,9 @@ mongoose.connect(url, {
   useUnifiedTopology: true
 });
 
-app.get("/", (req, res) => {
-    let logger = log4js.getLogger("app");
-    Questionnaire.find((err, questionnaires) => {
-        if (err) {
-            res.status(400).send('database error');
-        }
-        logger.debug(`Found ${questionnaires.length} questionnaire`)
-        res.status(200).json(questionnaires)
-        });
-});
+app.use(bodyParser.json())
+app.use(cors())
+
+app.use('/flashcard-express', dispatcher);
 
 app.listen(PORT, () => logger.info(`Server running on ${PORT}`));
