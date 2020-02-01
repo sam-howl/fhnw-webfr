@@ -1,31 +1,37 @@
 //const http = require('http');
-const log4js = require('log4js');
-const dotenv = require('dotenv-extended');
-const express = require('express')
-const app = express()
+const log4js = require("log4js");
+const dotenv = require("dotenv-extended");
+const express = require("express");
+const app = express();
+const mongoose = require("mongoose");
+const Questionnaire = require('./domain/questionnaire');
 
-log4js.configure('log4js.json');
-const logger = log4js.getLogger('server');
+log4js.configure("log4js.json");
+const logger = log4js.getLogger("server");
 
 // Read the properties from file '.env' and '.env.defaults'
-dotenv.load({silent: true});
+dotenv.load({ silent: true });
 const PORT = process.env.PORT || 9090;
 
-
-app.get('/', (req, res) => {
-    res.send("Hello World!")
-    let logger = log4js.getLogger('app');
-    logger.debug("Successfully processed %s request for '%s'", req.method, req.url)
+// Datenbankverbindung
+mongoose.Promise = global.Promise;
+const url =
+  "mongodb://" + process.env.MONGO_HOST + "/" + process.env.MONGO_DATABASE;
+  logger.info(`${url}`)
+mongoose.connect(url, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 });
 
-app.listen(PORT, () => logger.info(`Server running on ${PORT}`))
+app.get("/", (req, res) => {
+    let logger = log4js.getLogger("app");
+    Questionnaire.find((err, questionnaires) => {
+        if (err) {
+            res.status(400).send('database error');
+        }
+        logger.debug(`Found ${questionnaires.length} questionnaire`)
+        res.status(200).json(questionnaires)
+        });
+});
 
-//const server = http.createServer((request, response) => {
-//    let logger = log4js.getLogger('app');
-//    response.writeHead(200, {"Content-Type": "text/plain"});
-//    response.end("Hello World\n");
-//    logger.debug("Successfully processed %s request for '%s'", request.method, request.url);
-//});
-//server.listen(PORT);
-
-
+app.listen(PORT, () => logger.info(`Server running on ${PORT}`));
