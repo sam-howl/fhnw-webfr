@@ -23,6 +23,7 @@ public class QuestionnaireController {
     private QuestionnaireRepository questionnaireRepository;
     private final Logger logger = LogManager.getLogger(QuestionnaireController.class);
 
+    @CrossOrigin
     @GetMapping
     public ResponseEntity<List<Questionnaire>> findAll(){
         Sort sort = Sort.by(Sort.Direction.ASC, "title");
@@ -31,6 +32,7 @@ public class QuestionnaireController {
         return new ResponseEntity<>(q, HttpStatus.OK);
     }
 
+    @CrossOrigin
     @GetMapping(value="/{id}")
     public ResponseEntity<Questionnaire> findById(@PathVariable String id){
         Optional<Questionnaire> questionnaireOptional = questionnaireRepository.findById(id);
@@ -42,6 +44,7 @@ public class QuestionnaireController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @CrossOrigin
     @PostMapping
     public ResponseEntity<Questionnaire> create(@Valid @RequestBody Questionnaire q, BindingResult result){
         if(result.hasErrors()){
@@ -51,6 +54,7 @@ public class QuestionnaireController {
         return new ResponseEntity<>(questionnaire, HttpStatus.CREATED);
     }
 
+    @CrossOrigin
     @PutMapping(value="/{id}")
     public ResponseEntity<Questionnaire> update(@PathVariable String id, @Valid @RequestBody Questionnaire q, BindingResult result){
         Optional<Questionnaire> questionnaireOptional = questionnaireRepository.findById(id);
@@ -70,6 +74,7 @@ public class QuestionnaireController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @CrossOrigin
     @DeleteMapping(value="/{id}")
     public ResponseEntity<Questionnaire> delete(@PathVariable String id){
         Optional<Questionnaire> questionnaireOptional = questionnaireRepository.findById(id);
