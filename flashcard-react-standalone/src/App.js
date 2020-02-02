@@ -6,7 +6,7 @@ import QuestionnaireContainer from "./questionnaire/QuestionnaireContainer";
 import Loader from './misc/Loader'
 import Message from './misc/Message'
 
-const defaultServerUrl = "http://localhost:8080/flashcard-rest";
+const defaultServerUrl = "http://localhost:7000/flashcard-express/";
 
 const App = () => {
   const [isError, setIsError] = useState(false);
