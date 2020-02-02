@@ -1,102 +1,77 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import _ from 'lodash'
 import QuestionnaireTable from './QuestionnaireTable';
 import QuestionnaireCreateDialog from './QuestionnaireCreateDialog'
+import Message from '../misc/Message'
+import Loader from '../misc/Loader'
+import doFetch from '../network/NetworkUtil'
+import { useSelector, useDispatch } from 'react-redux';
 
-// const ID = 'id'
-// const DEFAULT_ID = 0
+const headers = { headers: { 'Content-Type': 'application/json; charset=utf-8' } }
 
 const QuestionnaireContainer = props => {
-    let [questionnaires, setQuestionnaires] = useState([])
+    const questionnaires = useSelector(state => state.questionnaires, _.isEqual)
+    const loading = useSelector(state => state.loading, _.isEqual)
+    const message = useSelector(state => state.message, _.isEqual)
+    const error = useSelector(state => state.error, _.isEqual)
 
-    // const id = qs =>
-    //     _.get(_.maxBy(qs, ID), ID, DEFAULT_ID) + 1
-    
-    // const createQuestionnaire = questionnaire =>
-    //     setQuestionnaires(_.concat(questionnaires, { id: id(questionnaires), ...questionnaire}))
+    const dispatch = useDispatch()
+
+    const readAll = () => {
+        dispatch(
+            doFetch({
+              url: props.server + "/questionnaires",
+              actionType: 'READ_QUESTIONNAIRES',
+              errorText: 'Not Found'
+            })
+        )
+    }
+
+    useEffect(readAll, [])
 
     const createQuestionnaire = async questionnaire => {
-        const request = new Request(props.server, {
-            method: 'POST',
-            headers: new Headers({
-                'Content-Type': 'application/json; charset=utf-8'
-            }),
-            body: JSON.stringify(questionnaire)
-        });
-        try {
-            const response = await fetch(request);
-            if (!response.ok) {
-                console.log('Status code: ' + response.status);
-            } else {
-                const q = await response.json();
-                setQuestionnaires(_.concat(questionnaires, q))
-            }
-        } catch (error) {
-            console.error(error)
-        }
+        dispatch(
+            doFetch({
+              url: props.server + "/questionnaires",
+              requestObject: {method: 'POST', body: JSON.stringify(questionnaire), ...headers},
+              actionType: 'CREATE_QUESTIONNAIRES',
+              errorText: 'Creation failed'
+            })
+        )
     }
-    
-    // const updateQuestionnaire = questionnaire =>
-    //     setQuestionnaires(_.map(questionnaires, q => q.id === questionnaire.id ? questionnaire : q))
 
     const updateQuestionnaire = async questionnaire => {
-        const request = new Request(props.server + "/" + questionnaire.id, {
-            method: 'PUT',
-            headers: new Headers({
-                'Content-Type': 'application/json; charset=utf-8'
-            }),
-            body: JSON.stringify(questionnaire)
-        });
-        try {
-            const response = await fetch(request);
-            if (!response.ok) {
-                console.log('Status code: ' + response.status);
-            } else {
-                const q = await response.json();
-                setQuestionnaires(_.map(questionnaires, questionnaire => questionnaire.id === q.id ? q : questionnaire))
-            }
-        } catch (error) {
-            console.error(error)
-        }
+        dispatch(
+            doFetch({
+              url: props.server + "/questionnaires/" + questionnaire.id,
+              requestObject: {method: 'PUT', body: JSON.stringify(questionnaire), ...headers},
+              actionType: 'UPDATE_QUESTIONNAIRES',
+              errorText: 'Update failed'
+            })
+        )
     }
-    
-    // const deleteQuestionnaire = id =>
-    //     setQuestionnaires( _.reject(questionnaires, { id: id }))
 
     const deleteQuestionnaire = async id => {
-        const request = new Request(props.server + "/" + id, {
-            method: 'DELETE'
-        });
-        try {
-            const response = await fetch(request);
-            if (!response.ok) {
-                console.log('Status code: ' + response.status);
-            } else {
-                setQuestionnaires( _.reject(questionnaires, { id: id }))
-            }
-        } catch (error) {
-            console.error(error)
-        }
+        dispatch(
+            doFetch({
+              url: props.server + "/questionnaires/" + id,
+              requestObject: {method: 'DELETE'},
+              actionType: 'DELETE_QUESTIONNAIRES',
+              errorText: 'Deletion failed'
+            })
+        )
+        // Ist nötig, wenn wir die REST Schnittstelle nicht verändern wollen.
+        // Besser wäre es, wenn wir das gelöschte Questionnaire zurückgeben
+        // und dann im NetworkUtil die ID mittels Action an den Reducer mitgeben.
+        readAll()
     }
 
-    // useEffect(
-    //     () => {
-    //         fetch(props.server + "questionnaires")
-    //             .then(response => response.json())
-    //             .then(json => setQuestionnaires(json))
-    //             .catch(error => console.error('Error retrieving questionnaires: ' + error))
-    //     },
-    //     [props.server]
-    // )
+    const renderMessage = () =>
+        error ? <Message message={message} /> : null
 
-    useEffect(() => {
-        const readAll = async () => {
-            const response = await fetch(props.server)
-            const qs = await response.json()
-            setQuestionnaires(qs)
-        } 
-        readAll().catch(error => console.error('Error retrieving questionnaires: ' + error))
-    }, [props.server])
+    const renderQuestionnaireTable = () =>
+        loading ? <Loader /> : <QuestionnaireTable questionnaires={questionnaires} 
+            update={updateQuestionnaire} deleteQuestionnaire={deleteQuestionnaire} />
     
     return (
         <div>
@@ -104,19 +79,10 @@ const QuestionnaireContainer = props => {
             <div className="float-right" role="group">
                 <QuestionnaireCreateDialog create={ createQuestionnaire } />
             </div>
-            <QuestionnaireTable questionnaires={questionnaires} update={updateQuestionnaire} deleteQuestionnaire={deleteQuestionnaire} />
+            {renderMessage()}
+            {renderQuestionnaireTable()}
         </div>
     )
-}
-
-QuestionnaireContainer.defaultProps = {
-    qs: [
-        { 'id': 1, 'title': 'Test Title 1', 'description': 'Test Description 1' },
-        { 'id': 2, 'title': 'Test Title 2', 'description': 'Test Description 2' },
-        { 'id': 3, 'title': 'Test Title 3', 'description': 'Test Description 3' },
-        { 'id': 4, 'title': 'Test Title 4', 'description': 'Test Description 4' },
-        { 'id': 5, 'title': 'Test Title 5', 'description': 'Test Description 5' }
-    ]
 }
 
 export default QuestionnaireContainer;

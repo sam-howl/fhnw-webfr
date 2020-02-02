@@ -1,46 +1,42 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import Header from "./app/Header";
 import Footer from "./app/Footer";
 import QuestionnaireContainer from "./questionnaire/QuestionnaireContainer";
-import Loader from './misc/Loader'
 import Message from './misc/Message'
-
-const defaultServerUrl = "http://localhost:7000/flashcard-express/";
+import doFetch from './network/NetworkUtil'
+import { useSelector, useDispatch } from "react-redux";
+import _ from 'lodash'
 
 const App = () => {
-  const [isError, setIsError] = useState(false);
-  const [serverUrl, setServerUrl] = useState(null);
+  const isError = useSelector(state => state.error, _.isEqual)
+  const config = useSelector(state => state.config, _.isEqual)
+  const message = useSelector(state => state.message, _.isEqual)
 
-  useEffect(() => {
-    fetch("application.json")
-      .then(response => response.json)
-      .then(json => {
-        const SERVER_URL = json.SERVER_URL ? json.SERVER_URL : defaultServerUrl;
-        console.log("serverUrl is %s", SERVER_URL);
-        setServerUrl(SERVER_URL + "/questionnaires");
+  const dispatch = useDispatch()
+
+  const readConfig = () => {
+    dispatch(
+      doFetch({
+        url: 'application.json',
+        actionType: 'CONFIG'
       })
-      .catch(error => {
-        console.error("App error: " + error);
-        setIsError(true);
-      });
-  }, []);
-
-  let comp
-  if (serverUrl === null){
-    comp = <Loader />
-  } else {
-    if (isError) {
-      comp = <Message message="Network error" />
-    } else {
-      comp = <QuestionnaireContainer server={serverUrl} />
-    }
+    )
   }
+
+  useEffect(readConfig, [])
+
+  const renderMessage = () =>
+    isError ? <Message message={message} /> : null
+
+  const renderQuestionnaireContainer = () =>
+    config ? <QuestionnaireContainer server={config.SERVER_URL} /> : null
 
   return (
     <div className="App">
       <Header title="Flashcard Client with React" subtitle="Version 1" />
-      {comp}
+      {renderMessage()}
+      {renderQuestionnaireContainer()}
       <Footer message="The FHNW Team" />
     </div>
   );
